@@ -23,64 +23,83 @@ const renderText = (text, className, baseWeight = 400) => {
   ));
 };
 
+const setupTextHover = (container, type) => {
+  if (!container || window.innerWidth < 640) return;
+
+  const letters = container.querySelectorAll("span");
+  const { min, max } = FONT_WEIGHTS[type];
+
+  const handleMouseMove = e => {
+    const { left: containerLeft } = container.getBoundingClientRect();
+    const mouseX = e.clientX - containerLeft;
+
+    letters.forEach(letter => {
+      const { left: l, width: w } = letter.getBoundingClientRect();
+      const letterCenterX = l - containerLeft + w / 2;
+      const distance = Math.abs(mouseX - letterCenterX);
+
+      const intensity = Math.exp(-(distance ** 2) / 15000);
+      const weight = min + (max - min) * intensity;
+
+      gsap.to(letter, {
+        fontVariationSettings: `'wght' ${weight}`,
+        duration: 0.1,
+        ease: "power2.out",
+        overwrite: true
+      });
+    });
+  };
+
+  const handleMouseLeave = () => {
+    letters.forEach(letter => {
+      gsap.to(letter, {
+        fontVariationSettings: `'wght' ${letter.dataset.baseWeight}`,
+        duration: 0.4,
+        ease: "power2.inOut",
+        overwrite: true
+      });
+    });
+  };
+
+  container.addEventListener("mousemove", handleMouseMove);
+  container.addEventListener("mouseleave", handleMouseLeave);
+
+  return () => {
+    container.removeEventListener("mousemove", handleMouseMove);
+    container.removeEventListener("mouseleave", handleMouseLeave);
+  };
+};
+
 const Welcome = () => {
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
 
   useGSAP(() => {
-    const setupTextHover = (container, type) => {
-      if (!container || window.innerWidth < 640) return;
+    const mediaQuery = window.matchMedia("(min-width: 640px)");
+    let titleCleanup, subtitleCleanup;
 
-      const letters = container.querySelectorAll("span");
-      const { min, max } = FONT_WEIGHTS[type];
-
-      const handleMouseMove = e => {
-        const { left: containerLeft } = container.getBoundingClientRect();
-        const mouseX = e.clientX - containerLeft;
-
-        letters.forEach(letter => {
-          const { left: l, width: w } = letter.getBoundingClientRect();
-          const letterCenterX = l - containerLeft + w / 2;
-          const distance = Math.abs(mouseX - letterCenterX);
-
-          const intensity = Math.exp(-(distance ** 2) / 15000);
-          const weight = min + (max - min) * intensity;
-
-          gsap.to(letter, {
-            fontVariationSettings: `'wght' ${weight}`,
-            duration: 0.1,
-            ease: "power2.out",
-            overwrite: true
-          });
-        });
-      };
-
-      const handleMouseLeave = () => {
-        letters.forEach(letter => {
-          gsap.to(letter, {
-            fontVariationSettings: `'wght' ${letter.dataset.baseWeight}`,
-            duration: 0.4,
-            ease: "power2.inOut",
-            overwrite: true
-          });
-        });
-      };
-
-      container.addEventListener("mousemove", handleMouseMove);
-      container.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        container.removeEventListener("mousemove", handleMouseMove);
-        container.removeEventListener("mouseleave", handleMouseLeave);
-      };
+    const setup = () => {
+      if (!mediaQuery.matches) return;
+      titleCleanup = setupTextHover(titleRef.current, "title");
+      subtitleCleanup = setupTextHover(subtitleRef.current, "subtitle");
     };
 
-    const titleCleanup = setupTextHover(titleRef.current, "title");
-    const subtitleCleanup = setupTextHover(subtitleRef.current, "subtitle");
-
-    return () => {
+    const cleanup = () => {
       if (titleCleanup) titleCleanup();
       if (subtitleCleanup) subtitleCleanup();
+    };
+
+    const handleChange = () => {
+      cleanup();
+      setup();
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    setup();
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+      cleanup();
     };
   }, []);
 
