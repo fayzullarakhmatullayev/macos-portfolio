@@ -3,16 +3,22 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const FONT_WEIGHTS = {
-  subtitle: { min: 100, max: 400, default: 400 },
-  title: { min: 100, max: 900, default: 400 }
+  subtitle: { min: 100, max: 400 },
+  title: { min: 100, max: 900 }
 };
+
+const GAUSSIAN_SPREAD = 15000; // Controls hover effect falloff radius
 
 const renderText = (text, className, baseWeight = 400) => {
   return [...text].map((char, i) => (
     <span
-      key={i}
+      key={`${text}-${i}`}
       className={className}
-      style={{ fontVariationSettings: `'wght' ${baseWeight}` }}
+      data-base-weight={baseWeight}
+      style={{
+        fontVariationSettings: `'wght' ${baseWeight}`,
+        display: "inline-block"
+      }}
     >
       {char === " " ? "\u00A0" : char}
     </span>
@@ -20,34 +26,41 @@ const renderText = (text, className, baseWeight = 400) => {
 };
 
 const setupTextHover = (container, type) => {
-  if (!container) return;
+  if (!container || window.innerWidth < 640) return;
 
   const letters = container.querySelectorAll("span");
-
-  const { min, max, default: base } = FONT_WEIGHTS[type];
-
-  const animateLetter = (letter, weight, duration = 0.25) => {
-    return gsap.to(letter, {
-      duration,
-      ease: "power2.out",
-      fontVariationSettings: `'wght' ${weight}`
-    });
-  };
+  const { min, max } = FONT_WEIGHTS[type];
 
   const handleMouseMove = e => {
-    const { left } = container.getBoundingClientRect();
-    const mouseX = e.clientX - left;
+    const { left: containerLeft } = container.getBoundingClientRect();
+    const mouseX = e.clientX - containerLeft;
 
     letters.forEach(letter => {
       const { left: l, width: w } = letter.getBoundingClientRect();
-      const distance = Math.abs(mouseX - (l - left + w / 2));
-      const intensity = Math.exp(-(distance ** 2) / 20000);
-      animateLetter(letter, min + (max - min) * intensity);
+      const letterCenterX = l - containerLeft + w / 2;
+      const distance = Math.abs(mouseX - letterCenterX);
+
+      const intensity = Math.exp(-(distance ** 2) / GAUSSIAN_SPREAD);
+      const weight = min + (max - min) * intensity;
+
+      gsap.to(letter, {
+        fontVariationSettings: `'wght' ${weight}`,
+        duration: 0.1,
+        ease: "power2.out",
+        overwrite: true
+      });
     });
   };
 
   const handleMouseLeave = () => {
-    letters.forEach(letter => animateLetter(letter, base, 0.3));
+    letters.forEach(letter => {
+      gsap.to(letter, {
+        fontVariationSettings: `'wght' ${letter.dataset.baseWeight}`,
+        duration: 0.4,
+        ease: "power2.inOut",
+        overwrite: true
+      });
+    });
   };
 
   container.addEventListener("mousemove", handleMouseMove);
@@ -64,25 +77,44 @@ const Welcome = () => {
   const subtitleRef = useRef(null);
 
   useGSAP(() => {
-    const titleCleanup = setupTextHover(titleRef.current, "title");
-    const subtitleCleanup = setupTextHover(subtitleRef.current, "subtitle");
+    const mediaQuery = window.matchMedia("(min-width: 640px)");
+    let titleCleanup, subtitleCleanup;
+
+    const setup = () => {
+      if (!mediaQuery.matches) return;
+      titleCleanup = setupTextHover(titleRef.current, "title");
+      subtitleCleanup = setupTextHover(subtitleRef.current, "subtitle");
+    };
+
+    const cleanup = () => {
+      if (titleCleanup) titleCleanup();
+      if (subtitleCleanup) subtitleCleanup();
+    };
+
+    const handleChange = () => {
+      cleanup();
+      setup();
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    setup();
 
     return () => {
-      subtitleCleanup();
-      titleCleanup();
+      mediaQuery.removeEventListener("change", handleChange);
+      cleanup();
     };
   }, []);
 
   return (
     <section id="welcome">
-      <p ref={subtitleRef}>
+      <div ref={subtitleRef} className="text-center">
         {renderText(
           "Hey, I'm Fayzulla! Welcome to my",
           "text-3xl font-georama",
           100
         )}
-      </p>
-      <h1 ref={titleRef} className="mt-7">
+      </div>
+      <h1 ref={titleRef} className="mt-7 text-center">
         {renderText("portfolio", "text-9xl italic font-georama")}
       </h1>
       <div className="small-screen">
