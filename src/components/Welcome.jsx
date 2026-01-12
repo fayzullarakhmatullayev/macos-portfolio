@@ -1,13 +1,12 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { GAUSSIAN_SPREAD } from "#constants";
 
 const FONT_WEIGHTS = {
   subtitle: { min: 100, max: 400 },
   title: { min: 100, max: 900 }
 };
-
-const GAUSSIAN_SPREAD = 15000; // Controls hover effect falloff radius
 
 const renderText = (text, className, baseWeight = 400) => {
   return [...text].map((char, i) => (

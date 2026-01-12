@@ -503,4 +503,6 @@ const WINDOW_CONFIG = {
   imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null }
 };
 
-export { INITIAL_Z_INDEX, WINDOW_CONFIG };
+const GAUSSIAN_SPREAD = 15000; // Controls hover effect falloff radius
+
+export { INITIAL_Z_INDEX, WINDOW_CONFIG, GAUSSIAN_SPREAD };
