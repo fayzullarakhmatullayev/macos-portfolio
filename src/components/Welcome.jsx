@@ -7,6 +7,8 @@ const FONT_WEIGHTS = {
   title: { min: 100, max: 900 }
 };
 
+const GAUSSIAN_SPREAD = 15000; // Controls hover effect falloff radius
+
 const renderText = (text, className, baseWeight = 400) => {
   return [...text].map((char, i) => (
     <span
@@ -38,7 +40,7 @@ const setupTextHover = (container, type) => {
       const letterCenterX = l - containerLeft + w / 2;
       const distance = Math.abs(mouseX - letterCenterX);
 
-      const intensity = Math.exp(-(distance ** 2) / 15000);
+      const intensity = Math.exp(-(distance ** 2) / GAUSSIAN_SPREAD);
       const weight = min + (max - min) * intensity;
 
       gsap.to(letter, {
