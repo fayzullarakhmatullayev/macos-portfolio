@@ -21,7 +21,7 @@ const Contact = ({ windowId }) => {
         <ul>
           {socials.map(item => (
             <li key={item.id} style={{ backgroundColor: item.bg }}>
-              <a href={item.link} target="_blank" rel="noopener norefer">
+              <a href={item.link} target="_blank" rel="noopener noreferrer">
                 <img src={item.icon} alt={item.text} className="size-5" />
                 <p>{item.text}</p>
               </a>

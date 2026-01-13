@@ -60,6 +60,8 @@ const WindowWrapper = Component => {
       el.style.display = isOpen ? "block" : "none";
     }, [isOpen]);
 
+    if (!windowState) return null;
+
     return (
       <section
         id={windowId}
