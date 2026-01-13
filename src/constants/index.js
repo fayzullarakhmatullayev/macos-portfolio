@@ -70,7 +70,7 @@ const dockApps = [
     id: "trash",
     name: "Archive", // was "Trash"
     icon: "trash.png",
-    canOpen: false
+    canOpen: true
   }
 ];
 
@@ -186,22 +186,30 @@ const photosLinks = [
 ];
 
 const gallery = [
-  {
-    id: 1,
-    img: "/images/gal1.png"
-  },
-  {
-    id: 2,
-    img: "/images/gal2.png"
-  },
-  {
-    id: 3,
-    img: "/images/gal3.png"
-  },
-  {
-    id: 4,
-    img: "/images/gal4.png"
-  }
+  // Library
+  { id: 1, img: "/images/gal1.png", category: "Library" },
+  { id: 2, img: "/images/gal2.png", category: "Library" },
+  { id: 3, img: "/images/gal3.png", category: "Library" },
+  { id: 4, img: "/images/gal4.png", category: "Library" },
+  { id: 5, img: "/images/project-1.png", category: "Library" },
+  { id: 6, img: "/images/project-2.png", category: "Library" },
+
+  // Memories
+  { id: 7, img: "/images/adrian.jpg", category: "Memories" },
+  { id: 8, img: "/images/adrian-2.jpg", category: "Memories" },
+  { id: 9, img: "/images/adrian-3.jpeg", category: "Memories" },
+
+  // Places
+  { id: 10, img: "/images/gal1.png", category: "Places" },
+  { id: 11, img: "/images/gal3.png", category: "Places" },
+
+  // People
+  { id: 12, img: "/images/adrian.jpg", category: "People" },
+  { id: 13, img: "/images/adrian-2.jpg", category: "People" },
+
+  // Favorites
+  { id: 14, img: "/images/gal2.png", category: "Favorites" },
+  { id: 15, img: "/images/project-3.png", category: "Favorites" }
 ];
 
 export {

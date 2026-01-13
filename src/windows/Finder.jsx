@@ -6,7 +6,7 @@ import useLocationStore from "#store/location.js";
 import clsx from "clsx";
 import useWindowStore from "#store/window.js";
 
-const Finder = () => {
+const Finder = ({ windowId }) => {
   const { activeLocation, setActiveLocation } = useLocationStore();
   const { openWindow } = useWindowStore();
 
@@ -44,7 +44,7 @@ const Finder = () => {
   return (
     <>
       <div id="window-header">
-        <WindowControls target="finder" />
+        <WindowControls target={windowId} />
         <Search className="icon" />
       </div>
       <div className="bg-white flex h-full">
@@ -69,6 +69,6 @@ const Finder = () => {
   );
 };
 
-const FinderWindow = WindowWrapper(Finder, "finder");
+const FinderWindow = WindowWrapper(Finder);
 
 export default FinderWindow;

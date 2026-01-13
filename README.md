@@ -1,16 +1,70 @@
-# React + Vite
+# macOS Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek, interactive, and modern portfolio website designed to mimic the macOS desktop experience. Built with React 19, Vite, and Tailwind CSS, this project features a fully functional desktop environment with draggable windows, a dynamic dock, and a simulated file system.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   **macOS Desktop Experience:** A familiar desktop interface with a top navbar, desktop icons, and a dynamic dock.
+-   **Interactive Dock:** A smooth, GSAP-powered dock with hover effects and application launching capabilities.
+-   **Window Management:** Draggable and stackable windows for various applications like Finder, Safari, Terminal, and Photos.
+-   **Finder Emulation:** A functional file explorer to navigate through projects, about me sections, and a resume.
+-   **Terminal Simulation:** A terminal window showcasing skills and technical expertise.
+-   **Responsive Design:** Styled with Tailwind CSS for a clean and modern look across different screen sizes.
+-   **State Management:** Powered by Zustand for seamless window and application state handling.
+-   **Smooth Animations:** Leverages GSAP for fluid transitions and interactive elements.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   **Frontend:** [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
+-   **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
+-   **Animations:** [GSAP (GreenSock Animation Platform)](https://greensock.com/gsap/)
+-   **State Management:** [Zustand](https://github.com/pmndrs/zustand)
+-   **Icons:** [Lucide React](https://lucide.dev/)
+-   **Date Handling:** [Day.js](https://day.js.org/)
 
-## Expanding the ESLint configuration
+## 📂 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+├── components/     # UI components (Dock, Navbar, WindowControls, etc.)
+├── constants/      # Configuration and static data (nav links, dock apps, projects)
+├── hoc/            # Higher-Order Components (WindowWrapper for draggable windows)
+├── store/          # Zustand store for global state (window and location management)
+├── windows/        # Individual application window components (Safari, Terminal, Finder, etc.)
+├── App.jsx         # Main application entry point
+└── index.css       # Global styles and Tailwind imports
+```
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+-   [Node.js](https://nodejs.org/) (Latest LTS version recommended)
+-   npm or yarn
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/macos_portfolio.git
+    cd macos_portfolio
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+
+## 📝 License
+
+This project is open-source and available under the [MIT License](LICENSE).

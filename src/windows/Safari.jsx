@@ -14,11 +14,11 @@ import {
 } from "lucide-react";
 import { blogPosts } from "#constants/index.js";
 
-const Safari = () => {
+const Safari = ({ windowId }) => {
   return (
     <>
       <div id="window-header">
-        <WindowControls target="safari" />
+        <WindowControls target={windowId} />
         <PanelLeft className="ml-10 icon" />
         <div className="flex items-center gap-1 ml-5">
           <ChevronLeft className="icon" />
@@ -64,6 +64,6 @@ const Safari = () => {
   );
 };
 
-const SafariWindow = WindowWrapper(Safari, "safari");
+const SafariWindow = WindowWrapper(Safari);
 
 export default SafariWindow;

@@ -4,11 +4,11 @@ import { techStack } from "#constants/index.js";
 import { Check, Flag } from "lucide-react";
 import { WindowControls } from "#components";
 
-const Terminal = () => {
+const Terminal = ({ windowId }) => {
   return (
     <>
       <div id="window-header">
-        <WindowControls target="terminal" />
+        <WindowControls target={windowId} />
         <h2>Tech Stack</h2>
       </div>
       <div className="techstack">
@@ -50,6 +50,6 @@ const Terminal = () => {
   );
 };
 
-const TerminalWindow = WindowWrapper(Terminal, "terminal");
+const TerminalWindow = WindowWrapper(Terminal);
 
 export default TerminalWindow;

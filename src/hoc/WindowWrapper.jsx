@@ -4,10 +4,12 @@ import { Draggable } from "gsap/Draggable";
 import { useGSAP } from "@gsap/react";
 import useWindowStore from "#store/window.js";
 
-const WindowWrapper = (Component, windowKey) => {
-  const Wrapped = props => {
+const WindowWrapper = Component => {
+  const Wrapped = ({ windowId, ...props }) => {
     const { focusWindow, windows } = useWindowStore();
-    const { isOpen, zIndex } = windows[windowKey];
+    const windowState = windows.find(w => w.id === windowId);
+
+    const { isOpen, zIndex, position } = windowState;
 
     const ref = useRef(null);
 
@@ -17,10 +19,24 @@ const WindowWrapper = (Component, windowKey) => {
       if (!el || !isOpen) return;
 
       el.style.display = "block";
+
+      if (position) {
+        gsap.set(el, {
+          x: `+=${position.x}`,
+          y: `+=${position.y}`
+        });
+      }
+
       gsap.fromTo(
         el,
-        { scale: 0.8, opacity: 0, y: 40 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }
+        { scale: 0.8, opacity: 0, y: (position?.y || 0) + 40 },
+        {
+          scale: 1,
+          opacity: 1,
+          y: position?.y || 0,
+          duration: 0.4,
+          ease: "power3.out"
+        }
       );
     }, [isOpen]);
 
@@ -29,7 +45,7 @@ const WindowWrapper = (Component, windowKey) => {
       if (!el) return;
 
       const [instance] = Draggable.create(el, {
-        onPress: () => focusWindow(windowKey)
+        onPress: () => focusWindow(windowId)
       });
 
       return () => {
@@ -44,9 +60,16 @@ const WindowWrapper = (Component, windowKey) => {
       el.style.display = isOpen ? "block" : "none";
     }, [isOpen]);
 
+    if (!windowState) return null;
+
     return (
-      <section id={windowKey} ref={ref} style={{ zIndex }} className="absolute">
-        <Component {...props} />
+      <section
+        id={windowId}
+        ref={ref}
+        style={{ zIndex }}
+        className="absolute bg-white rounded-md overflow-hidden shadow-2xl inset-shadow-2xl"
+      >
+        <Component {...props} windowId={windowId} data={windowState.data} />
       </section>
     );
   };
