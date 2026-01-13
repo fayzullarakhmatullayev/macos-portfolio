@@ -1,4 +1,4 @@
-# macOS Portfolio
+# MacOS Portfolio
 
 A sleek, interactive, and modern portfolio website designed to mimic the macOS desktop experience. Built with React 19, Vite, and Tailwind CSS, this project features a fully functional desktop environment with draggable windows, a dynamic dock, and a simulated file system.
 
@@ -46,8 +46,8 @@ src/
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/macos_portfolio.git
-    cd macos_portfolio
+    git clone https://github.com/fayzullarakhmatullayev/macos-portfolio.git
+    cd macos-portfolio
     ```
 
 2.  **Install dependencies:**
