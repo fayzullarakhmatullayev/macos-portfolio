@@ -7,7 +7,7 @@ import { dockApps, GAUSSIAN_SPREAD } from "#constants";
 import useWindowStore from "#store/window.js";
 
 const Dock = () => {
-  const { openWindow, closeWindow, focusWindow, windows } = useWindowStore();
+  const { openWindow, closeWindow, windows } = useWindowStore();
   const dockRef = useRef(null);
 
   useGSAP(() => {
