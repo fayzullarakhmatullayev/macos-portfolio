@@ -2,9 +2,7 @@ import WindowWrapper from "#hoc/WindowWrapper.jsx";
 import { WindowControls } from "#components";
 import useWindowStore from "#store/window.js";
 
-const Text = () => {
-  const data = useWindowStore(state => state.windows.txtfile.data);
-
+const Text = ({ windowId, data }) => {
   if (!data) return null;
 
   const { name, subtitle, image, description } = data;
@@ -12,10 +10,10 @@ const Text = () => {
   return (
     <>
       <div id="window-header">
-        <WindowControls target="txtfile" />
+        <WindowControls target={windowId} />
         <h2 className="text-sm font-medium">{name}</h2>
       </div>
-      <div className="p-6 overflow-y-auto h-full flex flex-col select-text">
+      <div className="p-6 overflow-y-auto h-full flex flex-col select-text bg-white shadow-2xl rounded-b-md ">
         {image && (
           <img
             src={image}
@@ -39,6 +37,6 @@ const Text = () => {
   );
 };
 
-const TextWindow = WindowWrapper(Text, "txtfile");
+const TextWindow = WindowWrapper(Text);
 
 export default TextWindow;

@@ -2,11 +2,11 @@ import WindowWrapper from "#hoc/WindowWrapper.jsx";
 import { WindowControls } from "#components";
 import { socials } from "#constants";
 
-const Contact = () => {
+const Contact = ({ windowId }) => {
   return (
     <>
       <div id="window-header">
-        <WindowControls target="contact" />
+        <WindowControls target={windowId} />
         <h2>Contact Me</h2>
       </div>
       <div className="p-5 space-y-5">
@@ -33,5 +33,5 @@ const Contact = () => {
   );
 };
 
-const ContactWindow = WindowWrapper(Contact, "contact");
+const ContactWindow = WindowWrapper(Contact);
 export default ContactWindow;

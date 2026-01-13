@@ -12,11 +12,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const Resume = () => {
+const Resume = ({ windowId }) => {
   return (
     <>
       <div id="window-header">
-        <WindowControls target="resume" />
+        <WindowControls target={windowId} />
         <h2>Resume.pdf</h2>
         <a
           href="files/resume.pdf"
@@ -34,6 +34,6 @@ const Resume = () => {
   );
 };
 
-const ResumeWindow = WindowWrapper(Resume, "resume");
+const ResumeWindow = WindowWrapper(Resume);
 
 export default ResumeWindow;
