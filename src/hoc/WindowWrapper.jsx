@@ -65,7 +65,7 @@ const WindowWrapper = Component => {
         id={windowId}
         ref={ref}
         style={{ zIndex }}
-        className="absolute bg-white rounded-md overflow-hidden shadow-2xl"
+        className="absolute bg-white rounded-md overflow-hidden shadow-2xl inset-shadow-2xl"
       >
         <Component {...props} windowId={windowId} data={windowState.data} />
       </section>

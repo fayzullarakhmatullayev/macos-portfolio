@@ -8,7 +8,7 @@ import useWindowStore from "#store/window.js";
 import useLocationStore from "#store/location.js";
 
 const Dock = () => {
-  const { openWindow, closeWindow, windows } = useWindowStore();
+  const { openWindow, focusWindow, windows } = useWindowStore();
   const { setActiveLocation } = useLocationStore();
   const dockRef = useRef(null);
 
@@ -69,7 +69,12 @@ const Dock = () => {
 
     if (app.id === "trash") {
       setActiveLocation(locations.trash);
-      openWindow("finder");
+      const finderWindow = windows.find(w => w.type === "finder");
+      if (finderWindow?.isOpen) {
+        focusWindow(finderWindow.id);
+      } else {
+        openWindow("finder");
+      }
       return;
     }
 
@@ -81,7 +86,7 @@ const Dock = () => {
     }
 
     if (window.isOpen) {
-      closeWindow(app.id);
+      focusWindow(window.id);
     } else {
       openWindow(app.id);
     }
