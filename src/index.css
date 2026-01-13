@@ -99,7 +99,7 @@ body {
   }
 
   #window-controls {
-    @apply flex gap-2;
+    @apply flex gap-2 z-2;
 
     .close {
       @apply size-3.5 rounded-full bg-[#ff6157] cursor-pointer;
@@ -166,7 +166,7 @@ body {
     @apply w-xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
 
     h2 {
-      @apply font-bold text-sm text-center w-full;
+      @apply font-bold text-sm text-center w-full absolute left-0 right-0;
     }
 
     .techstack {
